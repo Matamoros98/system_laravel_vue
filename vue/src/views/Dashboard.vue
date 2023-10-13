@@ -1,10 +1,9 @@
-<template>
-    <div>
-        Dashboard
-    </div>
+<template> 
+    <sidebar-vue></sidebar-vue>
+    
 </template>
 <script>
 export default {
-    name : 'Dashboard'
+    name: 'Dashboard'
 }
 </script>
