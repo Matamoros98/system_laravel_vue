@@ -2,26 +2,13 @@
     <div class="flex items-center justify-center w-full h-full">
         <div id="timer" class="p-4 m-2 items-center justify-center w-[40vw]">
 
-            <div class="w-full  text-center border-2 border-white p-5 shadow-2xl">
-                <p class="text-white italic text-3xl font-bold">{{ this.chronometerDisplay }}</p>
-
+            <div @click="statePlay()" class=" flex items-center justify-center cursor-pointer active:scale-90 transform transition duration-300 ease-in-out">
+                <div class="flex items-center justify-center w-60 h-60 rounded-full border-2 border-white text-center">
+                    <p class="text-white italic text-3xl font-bold">{{ this.chronometerDisplay }}</p>
+                </div>
             </div>
+
             <div class="w-full text-center mt-2 mb-2">
-                <button id="play" v-bind:class="this.classButton" @click="chronometerPlay()"
-                    :disabled="this.buttonDisabled">
-                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" >
-                        <path d="M7 6v12l10-6z"></path>
-                    </svg>
-                    play
-                </button>
-                <button id="pause"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    @click="chronometerPause()">
-                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M8 7h3v10H8zm5 0h3v10h-3z"></path>
-                    </svg>
-                    pause
-                </button>
                 <button
                     class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                     @click="chronometerStop()">
@@ -52,6 +39,7 @@ export default {
     name: "timer-component",
     data() {
         return {
+            play:false,
             hours: `00`,
             minutes: `00`,
             seconds: `00`,
@@ -69,6 +57,15 @@ export default {
         console.log("Component mounted.");
     },
     methods: {
+        statePlay(){
+            this.play=!this.play;
+            console.log(this.play)
+            if(this.play){
+                this.chronometerPlay()
+            }else{
+                this.chronometerPause()
+            }
+        },
         chronometer() {
 
             this.seconds++
@@ -113,9 +110,9 @@ export default {
 
                 this.chronometerDisplay = `00:00:00`
                 this.hours = `00`,
-                    this.minutes = `00`,
-                    this.seconds = `00`
-
+                this.minutes = `00`,
+                this.seconds = `00`
+                this.play=false;
             } catch (error) {
                 console.log(error)
 
@@ -153,7 +150,7 @@ export default {
         },
 
         stateButton() {
-            if (this.buttonDisabled) {
+            if (this.play) {
                 this.buttonDisabled = false
                 this.classButton = this.classButton
 
